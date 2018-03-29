@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <declare-styleable name="BannerLayout">
+
+        <attr name="time" format="integer" />
+        <attr name="auto" format="boolean" />
+        <attr name="scale" format="float" />
+
+    </declare-styleable>
+
+</resources>
