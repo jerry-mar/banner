@@ -8,6 +8,7 @@ import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.Interpolator;
 
@@ -23,6 +24,7 @@ public class BannerLayout extends ViewPager implements Handler.Callback {
     private long time;
     private float scale;
     private boolean auto;
+    private boolean vertical;
 
     private BannerScroller scroller;
     private Handler handler;
@@ -37,6 +39,29 @@ public class BannerLayout extends ViewPager implements Handler.Callback {
         super(context, attrs);
         initView(context, attrs);
         handler = new Handler(this);
+    }
+
+    @Override
+    public boolean onInterceptTouchEvent(MotionEvent ev) {
+        boolean intercept = super.onInterceptTouchEvent(swap(ev));
+        swap(ev);
+        return intercept;
+    }
+
+
+    @Override
+    public boolean onTouchEvent(MotionEvent ev) {
+        return super.onTouchEvent(swap(ev));
+    }
+
+    private MotionEvent swap(MotionEvent event) {
+        if (vertical) {
+            float width = getWidth();
+            float height = getHeight();
+            event.setLocation((event.getY() / height) * width,
+                    (event.getX() / width) * height);
+        }
+        return event;
     }
 
     @Override
@@ -82,6 +107,7 @@ public class BannerLayout extends ViewPager implements Handler.Callback {
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.BannerLayout);
         time = a.getInt(R.styleable.BannerLayout_time, 2000);
         auto = a.getBoolean(R.styleable.BannerLayout_auto, false);
+        vertical = a.getBoolean(R.styleable.BannerLayout_banner_vertical, false);
         scale = a.getFloat(R.styleable.BannerLayout_scale, 1.0F);
         a.recycle();
 

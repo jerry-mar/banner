@@ -5,6 +5,7 @@
 
         <attr name="time" format="integer" />
         <attr name="auto" format="boolean" />
+        <attr name="banner_vertical" format="boolean" />
         <attr name="scale" format="float" />
 
     </declare-styleable>
